@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Carfoon Shop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body style="display: flex; flex-direction: column; min-height: 100vh; background-color: var(--bg-color);">
+    <nav class="navbar glass">
+        <div class="logo">CARFOON.</div>
+        <div class="nav-links" style="display: flex; gap: 1rem; align-items: center;">
+            <a href="index.html" data-i18n="back_to_store">Back to Store</a>
+        </div>
+        <div class="nav-actions">
+            <button class="theme-toggle" title="Toggle Theme">☀️</button>
+            <select class="lang-switcher" style="background: transparent; color: var(--text-color); border: 1px solid var(--glass-border); border-radius: 4px; padding: 4px; margin-right: 1rem; cursor: pointer;">
+                <option value="en">EN</option>
+                <option value="so">SO</option>
+                <option value="ar">AR</option>
+            </select>
+        </div>
+    </nav>
+
+    <main style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 2rem;">
+        <div class="glass" style="padding: 3rem; border-radius: 16px; max-width: 400px; width: 100%;">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h2 style="font-size: 2rem; font-weight: 800; color: var(--text-color);">Create Account</h2>
+                <p style="margin-top: 0.5rem; opacity: 0.8;" data-i18n="create_account_desc">Join Carfoon for a better shopping experience.</p>
+            </div>
+            
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="reg-email" data-i18n="auth_email">Email</label>
+                    <input type="email" id="reg-email" required placeholder="you@example.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg-pass" data-i18n="auth_pass">Password</label>
+                    <input type="password" id="reg-pass" required placeholder="••••••••" inputmode="numeric" pattern="[0-9]*">
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-pass-confirm">Confirm Password</label>
+                    <input type="password" id="reg-pass-confirm" required placeholder="••••••••" inputmode="numeric" pattern="[0-9]*">
+                </div>
+                
+                <p id="reg-error" style="color: red; font-size: 0.9rem; margin-top: -0.5rem; margin-bottom: 1rem; min-height: 20px;"></p>
+                <p id="reg-success" style="color: var(--accent-color); font-size: 0.9rem; margin-top: -0.5rem; margin-bottom: 1rem; min-height: 20px;"></p>
+                
+                <button type="submit" class="submit-btn" id="reg-btn" style="width: 100%;" data-i18n="register">Register</button>
+            </form>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <span style="opacity: 0.8;">Already have an account?</span> 
+                <a href="login.html" style="color: var(--accent-color); text-decoration: none; font-weight: 600;" data-i18n="auth_login">Login Here</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="glass" style="margin-top: auto;">
+        <div class="container" style="text-align: center;">
+            <p>&copy; 2026 Carfoon Shop. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="translations.js"></script>
+    <script src="register.js"></script>
+</body>
+</html>

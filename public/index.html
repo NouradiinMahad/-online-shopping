@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carfoon | Premium Online Store</title>
+    <meta name="description" content="Carfoon - the most exquisite premium products delivered to you.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=13">
+</head>
+
+<body>
+    <nav class="navbar glass">
+        <div class="logo">CARFOON.</div>
+        <div class="nav-links">
+            <a href="index.html" data-i18n="nav_home">Home</a>
+            <a href="index.html#products" data-i18n="nav_collection">Collection</a>
+            <a href="about.html" data-i18n="nav_about">About</a>
+            <a href="contact.html" data-i18n="nav_contact">Contact</a>
+        </div>
+        <div class="nav-actions">
+            <button class="theme-toggle" title="Toggle Theme">☀️</button>
+            <select class="lang-switcher" style="background: transparent; color: var(--text-color); border: 1px solid var(--glass-border); border-radius: 4px; padding: 4px; margin-right: 1rem; cursor: pointer;">
+                <option value="en">EN</option>
+                <option value="so">SO</option>
+                <option value="ar">AR</option>
+            </select>
+            <div class="auth-trigger" id="auth-toggle" data-i18n="nav_login">Login</div>
+            <div class="cart-trigger" id="cart-toggle" data-i18n="nav_cart">
+                Cart <span id="cart-count" class="badge">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title" data-i18n="hero_title">Elevate Your Lifestyle</h1>
+            <p class="hero-subtitle" data-i18n="hero_subtitle">Discover our exclusive collection of premium, handcrafted goods. Experience true quality.</p>
+            <a href="#products" class="cta-button" data-i18n="shop_btn">Explore Now</a>
+        </div>
+        <div class="hero-3d-visual">
+            <div class="hero-glass-panel"></div>
+        </div>
+        <div class="hero-blur primary"></div>
+        <div class="hero-blur secondary"></div>
+    </header>
+
+    <main id="products" class="container">
+        <h2 class="section-title animate-on-scroll" data-i18n="collection_title">Our Collection</h2>
+        <div class="filters-container animate-on-scroll delay-100">
+            <div class="search-box">
+                <input type="text" id="search-input" data-i18n="search_placeholder" placeholder="Search products...">
+            </div>
+            <div class="category-filters" id="category-filters">
+                <button class="filter-btn active" data-category="all" data-i18n="filter_all">All</button>
+                <button class="filter-btn" data-category="electronics" data-i18n="filter_electronics">Electronics</button>
+                <button class="filter-btn" data-category="accessories" data-i18n="filter_accessories">Accessories</button>
+                <button class="filter-btn" data-category="lifestyle" data-i18n="filter_lifestyle">Lifestyle</button>
+            </div>
+        </div>
+        <div class="product-grid" id="product-grid">
+            <!-- Products injected by JS -->
+        </div>
+
+        <div class="about-preview animate-on-scroll delay-200"
+            style="text-align: center; margin-top: 5rem; padding: 3rem; background: rgba(255,255,255,0.02); border-radius: 16px; border: 1px solid var(--glass-border);">
+            <h2 class="section-title" style="margin-bottom: 1.5rem;" data-i18n="who">Who We Are</h2>
+            <p style="max-width: 600px; margin: 0 auto 2rem auto; color: var(--text-color);" data-i18n="footer_desc">We blur the line between
+                luxury and everyday utility. Discover how Carfoon is curating the finest premium goods for the modern
+                lifestyle.</p>
+            <a href="about.html" class="cta-button" style="padding: 0.8rem 2rem;" data-i18n="read_story">Read Our Story</a>
+        </div>
+    </main>
+
+    <aside class="cart-sidebar glass" id="cart-sidebar">
+        <div class="cart-header">
+            <h2 data-i18n="cart_title">Your Cart</h2>
+            <button class="close-cart" id="close-cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items injected by JS -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span data-i18n="cart_total">Total:</span>
+                <span id="cart-total-price">$0.00</span>
+            </div>
+            <button class="checkout-button" data-i18n="checkout_btn">Proceed to Checkout</button>
+        </div>
+    </aside>
+    <div class="cart-overlay" id="cart-overlay"></div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkout-modal">
+        <div class="modal-content glass">
+            <span class="close-modal" id="close-checkout">&times;</span>
+            <h2 data-i18n="checkout_title">Checkout</h2>
+            <form id="checkout-form">
+                <div class="form-group">
+                    <label for="checkout-email" data-i18n="form_email">Email Address</label>
+                    <input type="email" id="checkout-email" required placeholder="contact@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="name" data-i18n="form_name">Full Name</label>
+                    <input type="text" id="name" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="address" data-i18n="form_address">Shipping Address</label>
+                    <input type="text" id="address" required placeholder="123 Main St, City">
+                </div>
+                <div class="form-group">
+                    <label for="payment-method" style="margin-bottom:0.5rem; display:block;" data-i18n="form_payment">Payment Method</label>
+                    <select id="payment-method" required style="width: 100%; padding: 0.8rem; background: transparent; color: var(--text-color); border: 1px solid var(--glass-border); border-radius: 8px; margin-bottom: 1rem;">
+                        <option value="evc">EVC Plus (Hormuud)</option>
+                        <option value="zaad">ZAAD Service (Telesom)</option>
+                        <option value="edahab">eDahab (Somtel)</option>
+                        <option value="sahal">Sahal (Golis)</option>
+                        <option value="cod">Cash on Delivery</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="mobile" data-i18n="form_mobile">Mobile Number</label>
+                    <input type="tel" id="mobile" required placeholder="+252 XXXXXXX">
+                </div>
+                <button type="submit" class="submit-btn" id="submit-checkout" data-i18n="complete_purchase">Complete Purchase</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="modal" id="auth-modal">
+        <div class="modal-content glass" style="max-width: 400px;">
+            <span class="close-modal" id="close-auth">&times;</span>
+            <h2 id="auth-title" data-i18n="welcome_back">Welcome Back</h2>
+            <form id="auth-form">
+                <div class="form-group">
+                    <label for="auth-email" data-i18n="form_email">Email</label>
+                    <input type="email" id="auth-email" required placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="auth-password" data-i18n="form_password">Password</label>
+                    <input type="password" id="auth-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="submit-btn" id="submit-auth" data-i18n="login_btn">Login</button>
+            </form>
+            <p style="text-align:center; margin-top:1rem; font-size:0.9rem;">
+                <span style="color:var(--text-color);" data-i18n="no_account">Don't have an account?</span>
+                <a href="#" id="toggle-auth-mode" style="color:var(--accent-color); text-decoration:none;" data-i18n="sign_up">Sign Up</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="translations.js?v=6"></script>
+    <script src="app.js?v=6"></script>
+    
+    <!-- USSD Prompt Overlay -->
+    <div id="ussd-overlay" class="modal" style="display: none; z-index: 2000; flex-direction: column; justify-content: center; align-items: center;">
+        <div style="background: rgba(11, 12, 16, 0.95); padding: 3rem; border-radius: 20px; text-align: center; border: 1px solid var(--accent-color); box-shadow: 0 0 50px rgba(0, 229, 255, 0.2); max-width: 90%;">
+            <div class="spinner" style="border: 4px solid rgba(255,255,255,0.1); width: 60px; height: 60px; border-radius: 50%; border-left-color: var(--accent-color); animation: spin 1s linear infinite; margin: 0 auto 1.5rem auto;"></div>
+            <h3 style="color: var(--text-light); margin-bottom: 1rem; font-size: 1.5rem;" data-i18n="ussd_title">Awaiting Payment...</h3>
+            <p style="color: var(--text-color); font-size: 1.1rem;" data-i18n="ussd_desc">Fadlan hubi telfoonkaaga, geli PIN-ka lagusoo diray si lacag bixinta u dhamaystirto.</p>
+        </div>
+    </div>
+    <style>@keyframes spin { 100% { transform: rotate(360deg); } }</style>
+</body>
+
+</html>

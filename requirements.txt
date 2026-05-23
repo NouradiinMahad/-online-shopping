@@ -1,0 +1,2 @@
+# Carfoon Online Store uses only the Python standard library.
+# No external package dependencies are required.

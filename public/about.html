@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Carfoon</title>
+    <meta name="description" content="Learn more about Carfoon's journey and premium values.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar glass">
+        <div class="logo">CARFOON.</div>
+        <div class="nav-links">
+            <a href="index.html" data-i18n="nav_home">Home</a>
+            <a href="index.html#products" data-i18n="nav_collection">Collection</a>
+            <a href="about.html" data-i18n="nav_about">About</a>
+            <a href="contact.html" data-i18n="nav_contact">Contact</a>
+        </div>
+        <div class="nav-actions">
+            <button class="theme-toggle" title="Toggle Theme">☀️</button>
+            <select class="lang-switcher" style="background: transparent; color: var(--text-color); border: 1px solid var(--glass-border); border-radius: 4px; padding: 4px; margin-right: 1rem; cursor: pointer;">
+                <option value="en">EN</option>
+                <option value="so">SO</option>
+                <option value="ar">AR</option>
+            </select>
+            <div class="auth-trigger" id="auth-toggle" data-i18n="nav_login">Login</div>
+            <div class="cart-trigger" id="cart-toggle" data-i18n="nav_cart">
+                Cart <span id="cart-count" class="badge">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Content -->
+    <header class="about-hero hero">
+        <div class="hero-content">
+            <h1 class="hero-title" style="font-size: 3.5rem;" data-i18n="about_title">Our Story</h1>
+            <p class="hero-subtitle" data-i18n="about_subtitle">Redefining luxury and elegance for the modern lifestyle.</p>
+        </div>
+        <div class="hero-blur primary"></div>
+        <div class="hero-blur secondary"></div>
+    </header>
+
+    <main class="container about-container">
+        <section class="about-section story-section">
+            <div class="about-text">
+                <h2 class="section-title" style="text-align: left; margin-bottom: 1.5rem;" data-i18n="how_it_started">How It Started</h2>
+                <p data-i18n="story_p1">Born from a desire to blend cutting-edge technology with timeless aesthetics, Carfoon was created for those who never settle. We travel the globe to curate the finest materials and partner with visionary designers. Every piece in our collection is more than a product - it is a statement of identity and class.</p>
+                <p style="margin-top: 1rem;" data-i18n="story_p2">Whether you are designing your ultimate workspace, or searching for the perfect everyday lifestyle accessory, Carfoon ensures that you experience unparalleled quality.</p>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1497215842964-222b430dc094?auto=format&fit=crop&w=800&q=80" alt="Our beautiful workspace">
+            </div>
+        </section>
+
+        <section class="about-section values-section">
+            <h2 class="section-title" data-i18n="core_values">Our Core Values</h2>
+            <div class="values-grid">
+                <div class="value-card glass">
+                    <h3 style="color: var(--accent-color); margin-bottom: 1rem;" data-i18n="value1_title">Uncompromising Quality</h3>
+                    <p data-i18n="value1_desc">We source only the best materials to ensure longevity, durability, and a premium feel in everything we produce.</p>
+                </div>
+                <div class="value-card glass">
+                    <h3 style="color: var(--accent-color); margin-bottom: 1rem;" data-i18n="value2_title">Timeless Design</h3>
+                    <p data-i18n="value2_desc">Trends come and go, but true elegance is forever. Our designs are minimalistic, functional, and visually striking.</p>
+                </div>
+                <div class="value-card glass">
+                    <h3 style="color: var(--accent-color); margin-bottom: 1rem;" data-i18n="value3_title">Customer First</h3>
+                    <p data-i18n="value3_desc">Your satisfaction is our priority. We provide seamless shopping experiences and unparalleled customer support whenever you need us.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Cart Sidebar -->
+    <aside class="cart-sidebar glass" id="cart-sidebar">
+        <div class="cart-header">
+            <h2 data-i18n="cart_title">Your Cart</h2>
+            <button class="close-cart" id="close-cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items injected by JS -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span data-i18n="cart_total">Total:</span>
+                <span id="cart-total-price">$0.00</span>
+            </div>
+            <button class="checkout-button" data-i18n="checkout_btn">Proceed to Checkout</button>
+        </div>
+    </aside>
+    <div class="cart-overlay" id="cart-overlay"></div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkout-modal">
+        <div class="modal-content glass">
+            <span class="close-modal" id="close-checkout">&times;</span>
+            <h2 data-i18n="checkout_title">Checkout</h2>
+            <form id="checkout-form">
+                <div class="form-group">
+                    <label for="name" data-i18n="form_name">Full Name</label>
+                    <input type="text" id="name" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="address" data-i18n="form_address">Shipping Address</label>
+                    <input type="text" id="address" required placeholder="123 Main St, City">
+                </div>
+                <div class="form-group">
+                    <label for="card" data-i18n="form_card">Card Number</label>
+                    <input type="text" id="card" required placeholder="XXXX-XXXX-XXXX-XXXX">
+                </div>
+                <button type="submit" class="submit-btn" id="submit-checkout" data-i18n="complete_purchase">Complete Purchase</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="modal" id="auth-modal">
+        <div class="modal-content glass" style="max-width: 400px;">
+            <span class="close-modal" id="close-auth">&times;</span>
+            <h2 id="auth-title" data-i18n="welcome_back">Welcome Back</h2>
+            <form id="auth-form">
+                <div class="form-group">
+                    <label for="auth-email" data-i18n="form_email">Email</label>
+                    <input type="email" id="auth-email" required placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="auth-password" data-i18n="form_password">Password</label>
+                    <input type="password" id="auth-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="submit-btn" id="submit-auth" data-i18n="login_btn">Login</button>
+            </form>
+            <p style="text-align:center; margin-top:1rem; font-size:0.9rem;">
+                <span style="color:var(--text-color);" data-i18n="no_account">Don't have an account?</span> 
+                <a href="#" id="toggle-auth-mode" style="color:var(--accent-color); text-decoration:none;" data-i18n="sign_up">Sign Up</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="translations.js?v=2"></script>
+    <script src="app.js?v=3"></script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Carfoon</title>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css?v=11">
+    <script>
+        if (!sessionStorage.getItem('adminToken')) {
+            window.location.href = '../login.html';
+        }
+    </script>
+
+</head>
+<body>
+    <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar glass" id="dashboard-sidebar" style="position: fixed; height: 100vh; overflow-y: auto;">
+        <span class="close-sidebar-btn" id="close-sidebar-btn" style="position:absolute; top:1.5rem; right:1.5rem; font-size:2rem; cursor:pointer; color:var(--text-color); display:none;">&times;</span>
+        <div class="sidebar-logo">
+                CARFOON.<br>
+                <span style="font-size: 0.8rem; color: var(--accent-color); font-weight: 400; letter-spacing: 0;">ADMINISTRATOR</span>
+            </div>
+            <button class="tab-btn active" id="tab-dashboard" data-i18n="admin_dashboard">Dashboard</button>
+            <button class="tab-btn" id="tab-add-product" data-i18n="admin_title">Add Product</button>
+            <button class="tab-btn" id="tab-manage-products">Manage Products</button>
+            <button class="tab-btn" id="tab-manage-users" style="display: none;">Manage Users</button>
+            <button class="tab-btn" id="tab-settings" data-i18n="admin_settings">Settings</button>
+            
+            <div style="margin-top: auto;">
+                <select class="lang-switcher" style="width:100%; background: transparent; color: var(--text-color); border: 1px solid var(--glass-border); border-radius: 4px; padding: 8px; margin-bottom: 1rem; cursor: pointer;">
+                    <option value="en">English (EN)</option>
+                    <option value="so">Somali (SO)</option>
+                    <option value="ar">Arabic (AR)</option>
+                </select>
+                <button id="logout-btn" class="tab-btn" style="width: 100%; border: 1px solid var(--accent-color); text-align: center; color: var(--accent-color);" data-i18n="logout">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Mobile Sidebar Toggle -->
+            <button class="mobile-sidebar-toggle" id="mobile-sidebar-toggle">☰ Menu</button>
+            <header class="admin-header">
+                <div>
+                    <h2 style="font-size: 2rem; font-weight: 800;" id="page-title">Dashboard Overview</h2>
+                    <div style="opacity: 0.8;">Admin Portal V2.0</div>
+                </div>
+                <div>
+                    <button class="theme-toggle" title="Toggle Theme" style="padding: 8px 16px; font-size: 1.2rem; cursor: pointer; border-radius: 8px;">☀️</button>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="section-dashboard">
+                <div class="dashboard-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+                    <div class="stat-card glass" style="padding: 1.5rem; border-radius: 12px; text-align: center;">
+                        <h3 style="font-size: 1rem; opacity: 0.8; margin-bottom: 0.5rem;">Total Revenue</h3>
+                        <p id="stat-revenue" style="font-size: 2rem; font-weight: 800; color: var(--accent-color);">$0.00</p>
+                    </div>
+                    <div class="stat-card glass" style="padding: 1.5rem; border-radius: 12px; text-align: center;">
+                        <h3 style="font-size: 1rem; opacity: 0.8; margin-bottom: 0.5rem;">Orders</h3>
+                        <p id="stat-orders" style="font-size: 2rem; font-weight: 800;">0</p>
+                    </div>
+                    <div class="stat-card glass" style="padding: 1.5rem; border-radius: 12px; text-align: center;">
+                        <h3 style="font-size: 1rem; opacity: 0.8; margin-bottom: 0.5rem;">Users</h3>
+                        <p id="stat-users" style="font-size: 2rem; font-weight: 800;">0</p>
+                    </div>
+                    <div class="stat-card glass" style="padding: 1.5rem; border-radius: 12px; text-align: center;">
+                        <h3 style="font-size: 1rem; opacity: 0.8; margin-bottom: 0.5rem;">Products</h3>
+                        <p id="stat-products" style="font-size: 2rem; font-weight: 800;">0</p>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin-bottom: 3rem;">
+                    <div class="glass" style="padding: 2rem; border-radius: 16px; margin-bottom: 2rem;">
+                    <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem; color: var(--text-light);">Revenue Analytics</h3>
+                    <div style="height: 350px; width: 100%; display: flex; justify-content: center; align-items: center;">
+                        <canvas id="revenueChart" style="max-height: 100%; max-width: 100%;"></canvas>
+                    </div>
+                </div>    <div class="glass" style="padding: 2rem; border-radius: 16px;">
+                        <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Quick Facts</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 1rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem;">
+                                 🛒 <strong style="color: var(--accent-color);">Store is Active</strong>
+                            </li>
+                            <li style="margin-bottom: 1rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem;">
+                                 👨‍💻 <strong style="color: var(--accent-color);">Roles Enforced</strong>
+                            </li>
+                            <li>
+                                 📈 <strong style="color: var(--accent-color);">Stats Linked</strong>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="recent-orders glass" style="padding: 2rem; border-radius: 16px;">
+                    <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Live Orders Log</h3>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <th style="padding: 1rem; padding-left: 0;">Order ID</th>
+                                    <th style="padding: 1rem;">Date</th>
+                                    <th style="padding: 1rem;">Customer Email</th>
+                                    <th style="padding: 1rem;">Total</th>
+                                    <th style="padding: 1rem;">Address</th>
+                                    <th style="padding: 1rem;">Payment Info</th>
+                                    <th style="padding: 1rem;">Status</th>
+                                    <th style="padding: 1rem;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-table-body">
+                                <!-- Orders injected here -->
+                            </tbody>
+                        </table>
+                        <p id="no-orders-msg" style="text-align: center; padding: 2rem; opacity: 0.7; display: none;">No recent orders found.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add Product Section -->
+            <section id="section-add-product" style="display: none; max-width: 600px;">
+                <div class="glass" style="padding: 2.5rem; border-radius: 16px;">
+                    <form id="add-product-form">
+                        <div class="form-group">
+                            <label for="prod-name" data-i18n="admin_name">Product Name</label>
+                            <input type="text" id="prod-name" required placeholder="e.g. Mechanical Keyboard">
+                        </div>
+                        <div class="form-group">
+                            <label for="prod-price" data-i18n="admin_price">Price ($)</label>
+                            <input type="number" id="prod-price" required min="0" step="0.01" placeholder="e.g. 150.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="prod-category" data-i18n="admin_category">Category</label>
+                            <input type="text" id="prod-category" required placeholder="e.g. electronics, accessories, lifestyle">
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="admin_image">Product Image (JPEG/PNG)</label>
+                            <div style="position: relative; border: 2px dashed var(--accent-color); border-radius: 12px; padding: 2.5rem; text-align: center; cursor: pointer; transition: all 0.3s ease; background: rgba(0, 229, 255, 0.05);">
+                                <input type="file" id="prod-image-file" accept="image/jpeg, image/png, image/webp" style="position: absolute; top:0; left:0; width:100%; height:100%; opacity:0; cursor:pointer;" required>
+                                <div style="font-size: 2.5rem; margin-bottom: 0.8rem;">📸</div>
+                                <div id="upload-file-name" style="color: var(--text-color); font-weight: 500; font-size: 1.1rem;">Tap to select a photo</div>
+                                <div style="font-size: 0.85rem; opacity: 0.6; margin-top: 0.5rem;">Directly from your gallery or camera</div>
+                            </div>
+                            <input type="hidden" id="prod-image" value="../assets/mock-headphones.jpg">
+                        </div>
+                        <p id="upload-status" style="color: var(--accent-color); font-size: 0.95rem; margin-top: 1rem; margin-bottom: 1rem; min-height: 20px;"></p>
+                        <button type="submit" class="submit-btn" id="submit-prod-btn" data-i18n="upload_btn">Upload & Add Product</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Manage Products Section -->
+            <section id="section-manage-products" style="display: none;">
+                <div class="glass" style="padding: 2rem; border-radius: 16px;">
+                    <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Inventory Hub</h3>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <th style="padding: 1rem; padding-left: 0;">Image</th>
+                                    <th style="padding: 1rem;">Name</th>
+                                    <th style="padding: 1rem;">Category</th>
+                                    <th style="padding: 1rem;">Price</th>
+                                    <th style="padding: 1rem;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="manage-products-table-body">
+                            </tbody>
+                        </table>
+                        <p id="no-products-msg" style="text-align: center; padding: 2rem; opacity: 0.7; display: none;">No products found.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Manage Users Section -->
+            <section id="section-manage-users" style="display: none;">
+                <div class="glass" style="padding: 2rem; border-radius: 16px; margin-bottom: 2rem;">
+                    <h3 style="margin-bottom: 1rem; font-size: 1.2rem; color: var(--accent-color);">Direct Account Allocation</h3>
+                    <form id="admin-create-user-form" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; align-items: end;">
+                        <div class="form-group" style="margin: 0;">
+                            <label>Email Space</label>
+                            <input type="email" id="new-user-email" required placeholder="admin2@carfoon.com">
+                        </div>
+                        <div class="form-group" style="margin: 0;">
+                            <label>Temporary Password</label>
+                            <input type="text" id="new-user-pass" required placeholder="pass123">
+                        </div>
+                        <div class="form-group" style="margin: 0;">
+                            <label>Account Role</label>
+                            <select id="new-user-role" required style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--glass-border); background: rgba(255, 255, 255, 0.05); color: var(--text-light); font-size: 1rem;">
+                                <option value="user" style="color: black;">User</option>
+                                <option value="employee" style="color: black;">Employee</option>
+                                <option value="admin" style="color: black;">Admin</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="submit-btn" style="margin: 0; height: 46px;">Provision Identity</button>
+                    </form>
+                </div>
+
+                <div class="glass" style="padding: 2rem; border-radius: 16px;">
+                    <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">System Users & Identities</h3>
+                    <p style="opacity: 0.8; margin-bottom: 1.5rem;">As an Admin, you can promote accounts to 'employee' or 'admin' access scopes.</p>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <th style="padding: 1rem; padding-left: 0;">ID</th>
+                                    <th style="padding: 1rem;">Email Address</th>
+                                    <th style="padding: 1rem;">Current Role</th>
+                                    <th style="padding: 1rem;">Grant New Role</th>
+                                </tr>
+                            </thead>
+                            <tbody id="manage-users-table-body">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings & Profile Section -->
+            <section id="section-settings" style="display: none; max-width: 600px;">
+                <div class="glass" style="padding: 2.5rem; border-radius: 16px;">
+                    <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;" data-i18n="settings_title">Profile Management</h3>
+                    <form id="admin-profile-update-form">
+                        <div class="form-group">
+                            <label data-i18n="settings_current_email">Current Email</label>
+                            <input type="email" id="admin-update-current-email" required readonly class="readonly-input" style="opacity: 0.7;">
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="settings_new_email">New Email Address (Optional)</label>
+                            <input type="email" id="admin-update-new-email" placeholder="new.email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="settings_new_password">New Password (Optional)</label>
+                            <input type="password" id="admin-update-new-password" placeholder="Leave blank to keep current">
+                        </div>
+                        <p id="admin-profile-status" style="font-size: 0.95rem; margin-top: 1rem; margin-bottom: 1rem; min-height: 20px;"></p>
+                        <button type="submit" class="submit-btn" id="admin-submit-profile-btn" data-i18n="settings_save">Save Changes</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Custom Confirm Dialog -->
+    <div class="modal" id="custom-confirm-modal">
+        <div class="modal-content glass" style="max-width: 400px; text-align: center; padding: 2.5rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-color);">Are you sure?</h3>
+            <p id="custom-confirm-msg" style="opacity: 0.8; margin-bottom: 2rem;">This action cannot be undone.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <button id="custom-confirm-cancel" class="submit-btn" style="flex: 1; background: transparent; border: 1px solid var(--glass-border); color: var(--text-color);">Cancel</button>
+                <button id="custom-confirm-yes" class="submit-btn" style="flex: 1; background: rgba(255, 50, 50, 0.2); border: 1px solid #ff4444; color: #ff4444;">Yes, Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../translations.js?v=6"></script>
+    <script src="admin.js?v=6"></script>
+</body>
+</html>
