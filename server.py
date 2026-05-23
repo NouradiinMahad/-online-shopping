@@ -426,6 +426,8 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
 
 if __name__ == "__main__":
     init_db()
-    with socketserver.TCPServer(("", PORT), CustomHandler) as httpd:
-        print(f"Backend & Static Server running at http://localhost:{PORT}")
+    # Use ThreadingTCPServer for concurrent request handling and allow address reuse
+    socketserver.ThreadingTCPServer.allow_reuse_address = True
+    with socketserver.ThreadingTCPServer(("0.0.0.0", PORT), CustomHandler) as httpd:
+        print(f"Backend & Static Server running at http://0.0.0.0:{PORT}")
         httpd.serve_forever()
