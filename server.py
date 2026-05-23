@@ -119,10 +119,12 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
             self.send_error(405, "Method Not Allowed")
 
     def _send_json(self, response_code, data):
+        json_bytes = json.dumps(data).encode('utf-8')
         self.send_response(response_code)
         self.send_header('Content-type', 'application/json')
+        self.send_header('Content-Length', str(len(json_bytes)))
         self.end_headers()
-        self.wfile.write(json.dumps(data).encode('utf-8'))
+        self.wfile.write(json_bytes)
 
     def handle_api_get(self):
         url = urllib.parse.urlparse(self.path)
